@@ -8,7 +8,7 @@ RUN apt-get update && \
         php php-cli php-mysql php-mbstring php-xml php-curl php-zip \
         libapache2-mod-php \
         octave nodejs git python3 build-essential \
-        openjdk-11-jre openjdk-11-jdk python3-pip curl && \
+        openjdk-11-jre openjdk-11-jdk python3-pip curl wget && \
     apt-get clean
 
 # Install pylint and set config
@@ -25,6 +25,10 @@ RUN echo "ServerName localhost" > /etc/apache2/conf-available/fqdn.conf && \
 
 # Ensure python -> python3
 RUN ln -s /usr/bin/python3 /usr/bin/python
+
+# Patch: Add missing readoptarg.c for runguard to build
+RUN mkdir -p /var/www/html/jobe/runguard && \
+    wget -O /var/www/html/jobe/runguard/readoptarg.c https://raw.githubusercontent.com/trampgeek/jobe/master/runguard/readoptarg.c
 
 # Make install script executable
 RUN chmod +x ./install
