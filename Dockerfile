@@ -33,4 +33,4 @@ RUN chmod +x ./install
 EXPOSE 80
 
 # Run install at container startup, then launch Apache
-CMD ./install && /usr/sbin/apache2ctl -D FOREGROUND
+CMD ["/bin/bash", "-c", "service apache2 start && ./install && apache2ctl -D FOREGROUND"]
