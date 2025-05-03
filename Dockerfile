@@ -23,6 +23,9 @@ WORKDIR /var/www/html/jobe/
 RUN echo "ServerName localhost" > /etc/apache2/conf-available/fqdn.conf && \
     a2enconf fqdn
 
+# Ensure python -> python3
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
 # Ensure install script is executable and run it
 RUN chmod +x ./install && ./install
 
