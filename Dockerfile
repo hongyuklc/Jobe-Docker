@@ -26,9 +26,11 @@ RUN echo "ServerName localhost" > /etc/apache2/conf-available/fqdn.conf && \
 # Ensure python -> python3
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
-# Ensure install script is executable and run it
-RUN chmod +x ./install && ./install
+# Make install script executable
+RUN chmod +x ./install
 
-# Expose port and run Apache in foreground
+# Expose port
 EXPOSE 80
-CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+
+# Run install at container startup, then launch Apache
+CMD ./install && /usr/sbin/apache2ctl -D FOREGROUND
